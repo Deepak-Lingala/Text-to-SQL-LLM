@@ -63,8 +63,8 @@ class TrainingConfig:
     
     # Memory optimization
     gradient_checkpointing: bool = True
-    fp16: bool = True
-    bf16: bool = False  # L4 supports bf16, but fp16 is safer
+    fp16: bool = False
+    bf16: bool = True  # L4 GPU natively supports bf16
     optim: str = "paged_adamw_32bit"
     
     # Logging
