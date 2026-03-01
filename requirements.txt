@@ -1,0 +1,30 @@
+# DIESEL: Error-Taxonomy-Guided Learning for Text-to-SQL
+# Tested on Python 3.10+ with CUDA 12.1
+
+# === Core ML ===
+torch>=2.1.0
+transformers>=4.40.0
+peft>=0.10.0
+trl>=0.8.0
+bitsandbytes>=0.43.0
+accelerate>=0.28.0
+datasets>=2.18.0
+
+# === SQL Processing ===
+sqlparse>=0.5.0
+sqlglot>=23.0.0
+
+# === Logging & Tracking ===
+wandb>=0.16.0
+
+# === Visualization ===
+matplotlib>=3.8.0
+seaborn>=0.13.0
+pandas>=2.1.0
+
+# === Utilities ===
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+scipy>=1.12.0
+numpy>=1.26.0
+scikit-learn>=1.4.0
