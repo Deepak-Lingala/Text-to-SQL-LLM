@@ -14,7 +14,5 @@ Modules:
     utils           — Helper functions
 """
 
-from . import config
-from . import data_loader
-from . import model_loader
-from . import utils
+# Lazy imports — individual modules are imported where needed
+# (avoids cascading failures if GPU dependencies aren't installed yet)
