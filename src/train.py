@@ -10,8 +10,7 @@ from typing import Optional, Tuple
 from datetime import datetime
 
 import torch
-from transformers import TrainingArguments
-from trl import SFTTrainer
+from trl import SFTTrainer, SFTConfig
 from datasets import Dataset
 
 from .config import DieselConfig, get_default_config
@@ -22,7 +21,7 @@ def get_training_arguments(
     config: DieselConfig,
     output_dir: str,
     run_name: Optional[str] = None,
-) -> TrainingArguments:
+) -> SFTConfig:
     """
     Build TrainingArguments from config.
     
@@ -37,7 +36,7 @@ def get_training_arguments(
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         run_name = f"diesel_r{config.lora.r}_lr{tc.learning_rate}_{timestamp}"
     
-    return TrainingArguments(
+    return SFTConfig(
         output_dir=output_dir,
         num_train_epochs=tc.num_train_epochs,
         max_steps=tc.max_steps,
@@ -66,7 +65,11 @@ def get_training_arguments(
         seed=tc.seed,
         dataloader_pin_memory=True,
         remove_unused_columns=True,
-        group_by_length=True,  # Reduce padding
+        group_by_length=True,
+        # SFT-specific (moved from SFTTrainer params in trl v0.12+)
+        max_seq_length=config.training.max_seq_length,
+        dataset_text_field="text",
+        packing=False,
     )
 
 
@@ -114,10 +117,7 @@ def train(
         args=training_args,
         train_dataset=train_dataset,
         eval_dataset=eval_dataset,
-        tokenizer=tokenizer,
-        dataset_text_field="text",
-        max_seq_length=config.training.max_seq_length,
-        packing=False,  # Disable packing for clean example boundaries
+        processing_class=tokenizer,
     )
     
     # Print training summary
