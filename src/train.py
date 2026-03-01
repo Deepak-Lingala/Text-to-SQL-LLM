@@ -67,7 +67,7 @@ def get_training_arguments(
         remove_unused_columns=True,
         group_by_length=True,
         # SFT-specific (moved from SFTTrainer params in trl v0.12+)
-        max_seq_length=config.training.max_seq_length,
+        max_length=config.training.max_seq_length,
         dataset_text_field="text",
         packing=False,
     )
