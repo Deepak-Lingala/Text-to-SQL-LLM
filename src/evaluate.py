@@ -176,14 +176,22 @@ def evaluate_model(
         except Exception as e:
             pred_sql = ""
         
-        # Compute execution accuracy
+        # Compute accuracy
         db_path = get_spider_db_path(db_id, spider_db_dir)
         
         if os.path.exists(db_path):
+            # Preferred: execution accuracy against real database
             is_correct, details = execution_accuracy(db_path, pred_sql, gold_sql)
         else:
-            is_correct = False
-            details = {"error": f"Database not found: {db_path}"}
+            # Fallback: normalized SQL string matching
+            norm_pred = normalize_sql(pred_sql)
+            norm_gold = normalize_sql(gold_sql)
+            is_correct = norm_pred == norm_gold
+            details = {
+                "method": "string_match",
+                "norm_pred": norm_pred,
+                "norm_gold": norm_gold,
+            }
         
         # Record
         pred_record = {
