@@ -32,24 +32,12 @@ env/
 Thumbs.db
 desktop.ini
 
-# === Project Outputs ===
-outputs/
-cache/
-
 # === Model Weights (too large for git) ===
 *.bin
 *.safetensors
 *.pt
 *.pth
 *.ckpt
-
-# === Data ===
-spider_databases/
-*.sqlite
-
-# === Logs ===
-wandb/
-*.log
 
 # === Misc ===
 *.zip
